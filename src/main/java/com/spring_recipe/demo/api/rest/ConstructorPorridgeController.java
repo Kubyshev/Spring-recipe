@@ -23,7 +23,7 @@ public class ConstructorPorridgeController {
     private final RecipeService recipeService;
 
 
-    @PostMapping("/Recipes")
+    @PostMapping("/constructor/porridge")
     @PreAuthorize("hasAuthority('modification')")
     public ResponseEntity<RecipeDto> controllerPorridge (@RequestBody CreatePorridgeRequest porridge) throws RecipeAlreadyExistException {
         Recipe recipe=Recipe.builder()
@@ -34,7 +34,6 @@ public class ConstructorPorridgeController {
                 .build();
         Step step = Step.builder()
                 .description("Добавить масло, соль , сахар по вкусу "+ Arrays.toString(porridge.getIngredients()))
-                .nextId(UUID.fromString("0"))
                 .recipeId(recipe.getId())
                 .build();
         stepService.createStep(step);
@@ -56,6 +55,7 @@ public class ConstructorPorridgeController {
                 .recipeId(recipe.getId())
                 .nextId(step.getId())
                 .build();
+        stepService.createStep(step);
 
         recipe.setStepId(step.getId());
 
