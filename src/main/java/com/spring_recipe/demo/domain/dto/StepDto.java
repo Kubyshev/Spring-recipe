@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class StepDto {
     private String description;
     private UUID recipeId;
+    private UUID id;
     private UUID nextId;
     private LocalDateTime requestTime;
 }

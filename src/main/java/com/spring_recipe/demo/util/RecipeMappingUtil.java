@@ -13,6 +13,7 @@ public class RecipeMappingUtil {
     public static RecipeDto mapToRecipeDto(Recipe recipe) {
         return RecipeDto.builder()
                 .name(recipe.getName())
+                .id(recipe.getId())
                 .description(recipe.getDescription())
                 .image(recipe.getImage())
                 .userId(recipe.getUserId())

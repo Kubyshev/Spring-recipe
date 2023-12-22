@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class RecipeDtoOut  {
     private String name;
     private int userId;
+    private UUID id;
     private String description;
     private String image;
     private String[] steps ;

@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class RecipeDto {
     private String name;
     private int userId;
+    private UUID id;
     private String description;
     private String image;
     private UUID stepId;

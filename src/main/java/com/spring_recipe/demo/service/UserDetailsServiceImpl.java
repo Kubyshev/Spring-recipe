@@ -30,6 +30,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         );
     }
 
+    public UserDetails loadUserById(int id) throws UsernameNotFoundException {
+        return UserDetailsImpl.fromApplicationUser(
+                repository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found!"))
+        );
+    }
+
     public AppUserDto findById(int id){
         return mapToAppUserDto(
             repository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found!")));

@@ -12,6 +12,7 @@ public class StepMappingUtil {
 
     public static StepDto mapToStepDto(Step step) {
         return StepDto.builder()
+                .id(step.getId())
                 .description(step.getDescription())
                 .recipeId(step.getRecipeId())
                 .nextId(step.getNextId())

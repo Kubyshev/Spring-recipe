@@ -3,6 +3,7 @@ package com.spring_recipe.demo.service;
 import com.spring_recipe.demo.domain.dto.CreateStepRequest;
 import com.spring_recipe.demo.domain.dto.StepDto;
 import com.spring_recipe.demo.domain.entity.Step;
+import com.spring_recipe.demo.domain.exceptions.RecipeAlreadyExistException;
 import com.spring_recipe.demo.domain.exceptions.RecipeNotFoundException;
 import com.spring_recipe.demo.repository.StepRepository;
 import com.spring_recipe.demo.service.interfaces.StepService;
@@ -32,19 +33,27 @@ public class StepServiceImpl implements StepService {
 
     @Override
     @Transactional
-    public StepDto createStep(CreateStepRequest request) {
-        return mapToStepDto(repository.save(mapToStepFromRequest(request)));
+    public StepDto createStep(CreateStepRequest request) throws RecipeAlreadyExistException {
+        Step step = mapToStepFromRequest(request);
+        if (!repository.existsById(step.getId())) {
+            return mapToStepDto(repository.save(step));
+        }
+        throw new RecipeAlreadyExistException(step.getId().toString());
+    }
+    
+
+    @Override
+    @Transactional
+    public StepDto createStep(Step step) throws RecipeAlreadyExistException{
+        if (!repository.existsById(step.getId())) {
+            return mapToStepDto(repository.save(step));
+        }
+        throw new RecipeAlreadyExistException(step.getId().toString());
     }
 
     @Override
     @Transactional
-    public StepDto createStep(Step step) {
-        return mapToStepDto(repository.save(step));
-    }
-
-    @Override
-    @Transactional
-    public StepDto updateStep(Step step) {
+    public StepDto updateStep(Step step){
         return mapToStepDto(repository.save(step));
     }
 

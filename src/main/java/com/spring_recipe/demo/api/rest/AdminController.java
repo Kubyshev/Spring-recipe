@@ -1,7 +1,6 @@
 package com.spring_recipe.demo.api.rest;
 
 import com.spring_recipe.demo.domain.dto.CreateAppUserRequest;
-import com.spring_recipe.demo.domain.dto.CreateStepRequest;
 import com.spring_recipe.demo.domain.dto.RecipeDto;
 import com.spring_recipe.demo.domain.entity.Recipe;
 import com.spring_recipe.demo.domain.entity.Step;
@@ -14,11 +13,7 @@ import com.spring_recipe.demo.service.interfaces.StepService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import static java.lang.String.format;

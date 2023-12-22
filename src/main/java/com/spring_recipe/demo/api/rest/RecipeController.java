@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static java.lang.String.format;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,10 +69,10 @@ public class RecipeController {
 
     @PatchMapping("/Recipes")
     @PreAuthorize("hasAuthority('modification')")
-    public ResponseEntity<RecipeDto> updateRecipe(Authentication auth, @RequestBody Recipe Recipe) throws RecipeNotFoundException{
-        UserDetails udt1 = (UserDetails) auth.getPrincipal();
+    public ResponseEntity<RecipeDto> updateRecipe(@AuthenticationPrincipal UserDetails userDetails, @RequestBody Recipe Recipe) throws RecipeNotFoundException{
+        UserDetails udt1 = userDetails;
         int id = (RecipeService.getRecipeByName(Recipe.getName())).getUserId();
-        UserDetails udt2 = (UserDetails) UserDetailsService.findById(id);
+        UserDetails udt2 =  UserDetailsService.loadUserById(id);
         if (udt1.equals(udt2)){
             return ResponseEntity.ok(RecipeService.updateRecipe(Recipe));
         }
@@ -79,10 +82,10 @@ public class RecipeController {
 
     @DeleteMapping("/Recipes/{id}")
     @PreAuthorize("hasAuthority('modification')")
-    public ResponseEntity deleteRecipe(Authentication auth, @PathVariable String id) throws RecipeNotFoundException{
-        UserDetails udt1 = (UserDetails) auth.getPrincipal();
+    public ResponseEntity deleteRecipe(@AuthenticationPrincipal UserDetails userDetails, @PathVariable String id) throws RecipeNotFoundException{
+        UserDetails udt1 = userDetails;
         int user_id = RecipeService.getRecipeById(id).getUserId();
-        UserDetails udt2 = (UserDetails) UserDetailsService.findById(user_id);
+        UserDetails udt2 =  UserDetailsService.loadUserById(user_id);
         if (udt1.equals(udt2)){
             RecipeService.deleteRecipe(id);
         return ResponseEntity.ok()

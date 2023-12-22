@@ -27,7 +27,7 @@ public class StepServiceOutImpl {
             stepForOut= repository.findById(stepForOut.getNextId()).stream()
                     .findFirst()
                     .orElseThrow(() -> new RecipeNotFoundException("Ты не прав"));
-            listStr.add(stepForOut.getDescription());
+            listStr.add(stepForOut.getDescription()+" "+stepForOut.getId());
 
         }
 
@@ -35,6 +35,7 @@ public class StepServiceOutImpl {
 
         return RecipeDtoOut.builder()
                 .name(recipe.getName())
+                .id(recipe.getId())
                 .description(recipe.getDescription())
                 .image(recipe.getImage())
                 .userId(recipe.getUserId())
