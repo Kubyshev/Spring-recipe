@@ -24,7 +24,7 @@ public class ConstructorSoupController {
     private final RecipeService recipeService;
 
 
-    @PostMapping("/Recipes")
+    @PostMapping("/constructor/soup")
     @PreAuthorize("hasAuthority('modification')")
     public ResponseEntity<RecipeDto> controllerSoup (@RequestBody CreateSoupRequest soup) throws RecipeAlreadyExistException {
         Recipe recipe=Recipe.builder()
@@ -35,7 +35,6 @@ public class ConstructorSoupController {
                 .build();
         Step step = Step.builder()
                 .description("Добавить специи по вкусу "+ Arrays.toString(soup.getSpices()))
-                .nextId(UUID.fromString("0"))
                 .recipeId(recipe.getId())
                 .build();
         stepService.createStep(step);
@@ -57,6 +56,7 @@ public class ConstructorSoupController {
                 .recipeId(recipe.getId())
                 .nextId(step.getId())
                 .build();
+        stepService.createStep(step);
 
         recipe.setStepId(step.getId());
 
